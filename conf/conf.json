@@ -1,0 +1,16 @@
+{
+  "微信服务端域名": "",
+  "wxaddr": "http://xyz.szlimaiyun.cn",
+  "数据库类型": "",
+  "dbtype": "mysql",
+  "数据库账号": "",
+  "dbuser": "root",
+  "数据库密码": "",
+  "dbpassword": "123456",
+  "数据库ip": "",
+  "dbip": "127.0.0.1",
+  "数据库名": "",
+  "dbname": "gin-vue",
+  "数据库表名扩展名": "",
+  "table-prefix": "go_"
+}
