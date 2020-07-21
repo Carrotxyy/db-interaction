@@ -14,7 +14,9 @@ func RunWork() {
 	}
 	// 添加定时任务, * * * * * 是 crontab,表示每分钟执行一次
 	crontab.AddFunc("1 * * * *", task)
-	work.CreateWork().Upload()
+	works := work.CreateWork()
+	works.Upload()
+	works.LoadVisitor()
 	// 启动定时器
 	crontab.Start()
 }
