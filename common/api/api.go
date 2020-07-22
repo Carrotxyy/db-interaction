@@ -54,7 +54,7 @@ func HttpGet(path string)([]*models.Visitor,string){
 	result, _ := ioutil.ReadAll(resp.Body)
 
 	obj := struct {
-		Data []*models.Visitor `json:"data"`	// 此处解析错误！！！！不知道为什么
+		Data []*models.Visitor `json:"data"`
 		Cursor string `json:"cursor"`
 	}{}
 	fmt.Println(string(result))

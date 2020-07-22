@@ -55,15 +55,32 @@ func (w *Work)Upload()error{
 
 // 下载 所有访客数据
 func (w *Work)LoadVisitor()error{
+
+	err := w.Repository.TruncateTable("go_visitor")
+	if err != nil {
+		fmt.Println("删除表数据错误:",err)
+	}
 	// 获取 key
 	key := api.GetKey(w.Config.WxAddr +"/interactive/key").(string)
 	// 加密 key
 	enkey := api.Encryption(key)
-	// 构建url
-	url := w.Config.WxAddr + "/interactive/visitor?EnKey=" + enkey + "&cursor=0"
+	cursor := "0"
+	for {
 
-	visitors , cursor:= api.HttpGet(url)
-
-	fmt.Println("访客数据！",visitors,cursor)
+		// 构建url
+		url := w.Config.WxAddr + "/interactive/visitor?EnKey=" + enkey + "&cursor=" + cursor
+		// 获取数据
+		visitors , cursor := api.HttpGet(url)
+		err := w.Repository.BatchSave(visitors)
+		if err != nil {
+			fmt.Println("保存访客数据错误:",err)
+		}
+		// 判断访客数据是否已经下载完毕
+		if cursor == "0" {
+			break
+		}
+	}
+	fmt.Println("下载完成！")
 	return nil
 }
+
