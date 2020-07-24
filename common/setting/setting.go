@@ -7,8 +7,6 @@ import (
 	"os"
 )
 
-
-
 type Config struct {
 	WxAddr      string `json:"wxaddr"`       // 微信服务器域名
 	DbType      string `json:"dbtype"`       // 数据库类型
@@ -17,6 +15,7 @@ type Config struct {
 	DbIP        string `json:"dbip"`         // 数据库ip
 	DbName      string `json:"dbname"`       // 数据库名
 	TablePrefix string `json:"table-prefix"` // 数据库表扩展
+	SyncTime    string `json:"sync-time"`    // 数据同步时间
 }
 
 // 加载配置文件

@@ -1,5 +1,5 @@
 {
-  "微信服务端域名": "",
+  "微信访客服务端域名": "",
   "wxaddr": "http://xyz.szlimaiyun.cn",
   "数据库类型": "",
   "dbtype": "mysql",
@@ -12,5 +12,7 @@
   "数据库名": "",
   "dbname": "gin-vue",
   "数据库表名扩展名": "",
-  "table-prefix": "go_"
+  "table-prefix": "go_",
+  "多少时间同步一次数据,为保证数据的完整性，最小值为 '10-s' 单位(s:秒  m:分  H:时)": "",
+  "sync-time": "10-s"
 }

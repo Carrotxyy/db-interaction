@@ -6,7 +6,6 @@ import (
 	"db-interaction/models"
 	"db-interaction/repository"
 	"fmt"
-	"log"
 )
 
 type Work struct {
@@ -23,7 +22,7 @@ func CreateWork()*Work{
 // 上传 可接受预约 的业主数据
 func (w *Work)Upload()error{
 
-	// 获取 key
+	// 获取key
 	key := api.GetKey(w.Config.WxAddr +"/interactive/key").(string)
 	// 加密 key
 	enkey := api.Encryption(key)
@@ -37,7 +36,7 @@ func (w *Work)Upload()error{
 	// 获取数据
 	err := w.Repository.Get(where,&persons,"Per_Name,Per_ContactTel")
 	if err != nil {
-		log.Panic("获取用户数据错误错误:",err)
+		fmt.Println("获取用户数据错误:",err)
 		return err
 	}
 	// 构建请求 路径  携带 加密钥匙
@@ -50,37 +49,36 @@ func (w *Work)Upload()error{
 	if !bool {
 		fmt.Println("同步接受预约人员错误: ",err)
 	}
+
 	return nil
 }
 
 // 下载 所有访客数据
 func (w *Work)LoadVisitor()error{
 
-	err := w.Repository.TruncateTable("go_visitor")
-	if err != nil {
-		fmt.Println("删除表数据错误:",err)
-	}
 	// 获取 key
 	key := api.GetKey(w.Config.WxAddr +"/interactive/key").(string)
 	// 加密 key
 	enkey := api.Encryption(key)
-	cursor := "0"
-	for {
 
-		// 构建url
-		url := w.Config.WxAddr + "/interactive/visitor?EnKey=" + enkey + "&cursor=" + cursor
-		// 获取数据
-		visitors , cursor := api.HttpGet(url)
-		err := w.Repository.BatchSave(visitors)
-		if err != nil {
-			fmt.Println("保存访客数据错误:",err)
-		}
-		// 判断访客数据是否已经下载完毕
-		if cursor == "0" {
-			break
-		}
+	// 构建url
+	url := w.Config.WxAddr + "/interactive/visitor?EnKey=" + enkey
+	// 获取数据
+	visitors,err  := api.HttpGet(url)
+	if err != nil {
+		fmt.Println("拉取访客数据错误!")
+		return err
 	}
-	fmt.Println("下载完成！")
+	if len(visitors) <= 0 {
+		fmt.Println("暂无数据!")
+		return nil
+	}
+	err = w.Repository.BatchSave(visitors)
+	if err != nil {
+		fmt.Println("保存访客数据错误:",err)
+		return err
+	}
+
 	return nil
 }
 
