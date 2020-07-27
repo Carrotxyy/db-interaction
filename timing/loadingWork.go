@@ -3,7 +3,6 @@ package timing
 import (
 	"db-interaction/common/setting"
 	"db-interaction/work"
-	"fmt"
 	cron "github.com/robfig/cron/v3"
 	"strings"
 )
@@ -15,23 +14,25 @@ func RunWork() {
 	crontab := cron.New(cron.WithSeconds())
 	works := work.CreateWork()
 	task := func() {
+		//
+		//fmt.Println("同步--上传业主数据 开始")
+		//
+		//err := works.Upload()
+		//if err != nil {
+		//	fmt.Println("同步--上传业主出现错误:",err)
+		//}
+		//
+		//fmt.Println("同步--上传业主数据 结束")
+		//
+		//
+		//fmt.Println("同步--下载访客数据 开始")
+		//err = works.LoadVisitor()
+		//if err != nil {
+		//	fmt.Println("同步--下载访客出现错误:",err)
+		//}
+		//fmt.Println("同步--下载访客数据 结束")
 
-		fmt.Println("同步--上传业主数据 开始")
-
-		err := works.Upload()
-		if err != nil {
-			fmt.Println("同步--上传业主出现错误:",err)
-		}
-
-		fmt.Println("同步--上传业主数据 结束")
-
-
-		fmt.Println("同步--下载访客数据 开始")
-		err = works.LoadVisitor()
-		if err != nil {
-			fmt.Println("同步--下载访客出现错误:",err)
-		}
-		fmt.Println("同步--下载访客数据 结束")
+		works.Sense_Orginfo()
 	}
 	// 获取执行时间
 	spec := getSpec()

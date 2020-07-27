@@ -13,4 +13,5 @@ type Visitor struct {
 	IsAcc     bool   `json:"isAcc"`     // 业主是否操作
 	State     bool   `json:"state"`     // 预约结果
 	FileName  string `json:"filename"`  // 头像文件名
+	Per_ID    int    `json:"Per_ID"`    // 业主id
 }

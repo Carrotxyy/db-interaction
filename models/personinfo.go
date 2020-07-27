@@ -25,4 +25,6 @@ type Personinfo struct {
 	Per_CardID1        string `gorm:"column:Per_CardID1"`                                                        //卡号1
 	Per_CardID2        string `gorm:"column:Per_CardID2"`                                                        //卡号2
 	Per_CardID3        string `gorm:"column:Per_CardID3"`                                                        //卡号3
+	Per_WXMark         string `gorm:"column:Per_WXMark"`                                                         // 微信访客同步标志位
+	Per_SenseMark      string `gorm:"column:Per_SenseMark"`                                                      // 标志位，标识当前数据是否变动
 }

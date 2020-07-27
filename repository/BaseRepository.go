@@ -26,14 +26,16 @@ func NewRepository()*BaseRepository{
 }
 
 // 根据条件，获取人员表数据
-func (b *BaseRepository) Get(where , out interface{} ,sel string)error{
+func (b *BaseRepository) Get(where , out interface{} ,sel string)(error,int){
+	var count int
 	// 获取数据库对象
 	db := b.DB.Conn.Where(where)
 	if sel != "" {
 		// 检索的字段
 		db = db.Select(sel)
 	}
-	return db.Find(out).Error
+	err := db.Find(out).Count(&count).Error
+	return err,count
 }
 
 // 保存数据
@@ -41,22 +43,27 @@ func (b *BaseRepository) Save(value interface{})error{
 	return b.DB.Conn.Create(value).Error
 }
 
-// 批量保存数据
+// 批量保存访客数据
 func (b *BaseRepository) BatchSave(value []*models.Visitor)error{
-	sql := "insert into `go_visitor` (`vis_name`,`vis_number`,`vis_uname`,`vis_unumber`,`vis_idtype`,`vis_idnum`,`vis_starttime`,`vis_endtime`,`vis_message`,`vis_isacc`,`vis_state`,`vis_filename`) values "
+	sql := "insert into `go_visitor` (`vis_name`,`vis_number`,`vis_uname`,`vis_unumber`,`vis_idtype`,`vis_idnum`,`vis_starttime`,`vis_endtime`,`vis_message`,`vis_isacc`,`vis_state`,`vis_filename`,`vis_perid`) values "
 	// 实际参数
 	rels := []interface{}{}
 	// sql语句参数
-	rowSql := "(?,?,?,?,?,?,?,?,?,?,?,?)"
+	rowSql := "(?,?,?,?,?,?,?,?,?,?,?,?,?)"
 	var insert []string
 	// 构建批量添加的sql
 	for _, e := range value {
 		insert = append(insert,rowSql)
-		rels = append(rels,e.Name, e.Number, e.UName ,e.UNumber,e.IdType,e.IdNum,e.StartTime,e.EndTime,e.Message,e.IsAcc,e.State,e.FileName)
+		rels = append(rels,e.Name, e.Number, e.UName ,e.UNumber,e.IdType,e.IdNum,e.StartTime,e.EndTime,e.Message,e.IsAcc,e.State,e.FileName,e.Per_ID)
 
 	}
 	// 拼接sql
 	sql = sql + strings.Join(insert,",")
 	// 执行sql
 	return b.DB.Conn.Exec(sql,rels...).Error
+}
+
+// 业主表 恢复标志位 。 将已经同步的数据恢复标志位，下此同步则不会获取这些数据，除非数据发生变动
+func (b *BaseRepository) BatchUpdate(ids []int)error{
+	return b.DB.Conn.Table("go_personinfo").Where("Per_ID IN (?)",ids).Update("Per_WXMark","1").Error
 }
