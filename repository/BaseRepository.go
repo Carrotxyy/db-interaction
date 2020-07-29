@@ -28,8 +28,8 @@ func NewRepository()*BaseRepository{
 // 根据条件，获取人员表数据
 func (b *BaseRepository) Get(where , out interface{} ,sel string)(error,int){
 	var count int
-	// 获取数据库对象
-	db := b.DB.Conn.Where(where)
+	// 获取数据库对象,Not 反向获取
+	db := b.DB.Conn.Not(where)
 	if sel != "" {
 		// 检索的字段
 		db = db.Select(sel)
@@ -65,5 +65,5 @@ func (b *BaseRepository) BatchSave(value []*models.Visitor)error{
 
 // 业主表 恢复标志位 。 将已经同步的数据恢复标志位，下此同步则不会获取这些数据，除非数据发生变动
 func (b *BaseRepository) BatchUpdate(ids []int)error{
-	return b.DB.Conn.Table("go_personinfo").Where("Per_ID IN (?)",ids).Update("Per_WXMark","1").Error
+	return b.DB.Conn.Table("go_personinfo").Where("Per_ID IN (?)",ids).Update("Per_WXMark","0").Error
 }

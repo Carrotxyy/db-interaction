@@ -10,7 +10,7 @@ type Personinfo struct {
 	Per_CreateUser     string `gorm:"column:Per_CreateUser;not null"`                                            //创建用户名
 	Per_LastModifyDate string `gorm:"column:Per_LastModifyDate;not null"`                                        //最后修改日期
 	Per_LastModifyUser string `gorm:"column:Per_LastModifyUser;not null"`                                        //最后修改人姓名
-	Per_Status         string `gorm:"column:Per_Status;not null" json:"Per_Status"  validate:"required"`         //用户状态,'0'：启用 '1'：禁用 ·
+	Per_Status         string `gorm:"column:Per_Status;not null" json:"Per_Status"  validate:"required"`         //用户状态,'1'：启用 '0'：禁用 ·
 	Per_ContactTel     string `gorm:"column:Per_ContactTel;not null" json:"Per_ContactTel"  validate:"required"` //联系电话 ·
 	Per_Mobile         string `gorm:"column:Per_Mobile;not null" json:"Per_Mobile"  validate:"required"`         //移动电话
 	Per_Image          string `gorm:"column:Per_Image;not null" json:"Per_Image"  validate:"required"`           //照片
@@ -25,6 +25,6 @@ type Personinfo struct {
 	Per_CardID1        string `gorm:"column:Per_CardID1"`                                                        //卡号1
 	Per_CardID2        string `gorm:"column:Per_CardID2"`                                                        //卡号2
 	Per_CardID3        string `gorm:"column:Per_CardID3"`                                                        //卡号3
-	Per_WXMark         string `gorm:"column:Per_WXMark"`                                                         // 微信访客同步标志位
-	Per_SenseMark      string `gorm:"column:Per_SenseMark"`                                                      // 标志位，标识当前数据是否变动
+	Per_WXMark         string `gorm:"column:Per_WXMark"`                                                         // 微信访客同步标志位 0：已同步 1：新增
+	Per_SenseMark      string `gorm:"column:Per_SenseMark"`                                                      // 同步商汤系统标志位 0：已同步 1：新增 2：修改 3：删除
 }

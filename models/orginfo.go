@@ -9,7 +9,7 @@ type Orginfo struct {
 	Org_LastModifyUser string `gorm:"column:Org_LastModifyUser;not null"`                                        //修改人名称
 	Org_ParentID       int    `gorm:"column:Org_ParentID"`                                                       //父机构
 	Org_FullName       string `gorm:"column:Org_FullName;not null" json:"Org_FullName" validate:"required"`      //机构全称
-	Org_Status         string `gorm:"column:Org_Status;not null" json:"Org_Status" validate:"required"`          //数据状态,1-有效0-无效（机构已删除）
+	Org_Status         string `gorm:"column:Org_Status;not null" json:"Org_Status" validate:"required"`          //数据状态,1-有效 0-无效（机构已删除）
 	Org_ContactTel     string `gorm:"column:Org_ContactTel;not null" json:"Org_ContactTel"  validate:"required"` //联系电话
 	Org_Leader         string `gorm:"column:Org_Leader;not null" json:"Org_Leader" validate:"required"`          //领导/法人
 	Org_Contact        string `gorm:"column:Org_Contact;not null" json:"Org_Contact" validate:"required"`        //联系人
@@ -19,19 +19,7 @@ type Orginfo struct {
 	Org_PeakID         string `gorm:"column:Org_PeakID" json:"Org_PeakID"`                                       //披克系统机构ID，0非披克用户，9999初创
 	Org_SenseID        string `gorm:"column:Org_SenseID" json:"Org_SenseID"`                                     //商汤系统机构ID，0非商汤用户，9999初创
 	Org_MegID          string `gorm:"column:Org_MegID" json:"Org_MegID"`                                         //旷视系统机构ID，0非旷视用户，9999初创
-	Org_SenseMark      string `gorm:"column:Org_SenseMark"`                                                      // 同步商汤系统标志位 0：未同步 1：已同步
-	Org_WXMark         string `gorm:"column:Org_WXMark"`                                                         // 微信访客同步标志位
+	Org_SenseMark      string `gorm:"column:Org_SenseMark"`                                                      //同步商汤系统标志位 0：已同步 1：新增 2：修改 3：删除
+	Org_PeakMark       string `gorm:"column:Org_PeakMark"`
+	Org_MegMark        string `gorm:"column:Org_MegMark"`
 }
-
-/**
- 用户填写信息
-name
-fullname
-status
-contactTel
-leader
-contact
-email
-extentInfo
-
-*/

@@ -14,10 +14,10 @@ func RunWork() {
 	crontab := cron.New(cron.WithSeconds())
 	works := work.CreateWork()
 	task := func() {
-		//
+
 		//fmt.Println("同步--上传业主数据 开始")
 		//
-		//err := works.Upload()
+		//err := works.VisitorUpload()
 		//if err != nil {
 		//	fmt.Println("同步--上传业主出现错误:",err)
 		//}
@@ -26,7 +26,7 @@ func RunWork() {
 		//
 		//
 		//fmt.Println("同步--下载访客数据 开始")
-		//err = works.LoadVisitor()
+		//err = works.VisitorLoad()
 		//if err != nil {
 		//	fmt.Println("同步--下载访客出现错误:",err)
 		//}
